@@ -4,7 +4,6 @@ autopep8==1.4.4
 bcrypt==3.1.7
 boto3==1.21.6
 botocore==1.24.6
-certifi==2019.11.28
 cffi==1.14.0
 chardet==3.0.4
 clamd==1.0.2
@@ -27,7 +26,6 @@ hiredis==1.1.0
 idna==2.8
 importlib-resources==5.4.0
 jmespath==0.9.5
-joblib==1.1.0
 mongoengine==0.19.1
 netaddr==0.8.0
 networkx==2.5.1
