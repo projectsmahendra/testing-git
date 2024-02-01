@@ -63,6 +63,6 @@ tldextract==3.1.2
 drf-yasg2==1.19.4
 scikit-learn==0.24.2
 pickle5==0.0.12
-scipy==1.8.0
+scipy==1.7.3
 chargebee==2.27.0
 blinker==1.5
