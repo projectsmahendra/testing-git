@@ -21,4 +21,6 @@ jobs:
           else
               echo "TEMPLATE_NAME='.NET 8.0 Expression API (AWS EKS)'" >> "$GITHUB_ENV"
           fi
+      - name: output
+        run: |
           echo "output after ${{ env.TEMPLATE_NAME }}"
