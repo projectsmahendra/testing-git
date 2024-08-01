@@ -8,19 +8,35 @@ on:
         default: '{}'
         required: true
 env:
-  AUTH_TYPE: ${{ fromJson(inputs.arguments).auth_type }}
+  OPTION_ONE: true
+  OPTION_TWO: false
+  OPTION_THREE: true
+
 jobs:
   env:
     runs-on: ubuntu-latest
     steps:
-      - name: Set env NEED
+      - name: Build Options String
+        id: build_options
         run: |
-          echo "template name ${{ env.AUTH_TYPE }}"
-          if [[ "${{ env.AUTH_TYPE }}" == "6" ]]; then
-              echo "TEMPLATE_NAME='.NET 8.0 System API (AWS EKS)'" >> "$GITHUB_ENV"
-          else
-              echo "TEMPLATE_NAME='.NET 8.0 Expression API (AWS EKS)'" >> "$GITHUB_ENV"
+          # Initialize an empty string for options
+          OPTIONS=""
+
+          # Append options based on conditions
+          if [ "${OPTION_ONE}" == "true" ]; then
+            OPTIONS="${OPTIONS} --option-one"
           fi
-      - name: output
-        run: |
-          echo "output after ${{ env.TEMPLATE_NAME }}"
+
+          if [ "${OPTION_TWO}" == "true" ]; then
+            OPTIONS="${OPTIONS} --option-two"
+          fi
+
+          if [ "${OPTION_THREE}" == "true" ]; then
+            OPTIONS="${OPTIONS} --option-three"
+          fi
+
+          # Export the built string as an output
+          echo "options=$OPTIONS" >> $GITHUB_ENV
+
+      - name: Print Options String
+        run: echo "Built options string: ${{ env.options }}"
