@@ -39,4 +39,4 @@ jobs:
           echo "options=$OPTIONS" >> $GITHUB_ENV
 
       - name: Print Options String
-        run: echo "Built options string: ${{ env.options }}"
+        run: echo "Built options string ${{ env.options }}"
