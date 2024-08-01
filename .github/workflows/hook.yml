@@ -8,9 +8,14 @@ on:
         default: '{}'
         required: true
 env:
-  OPTION_ONE: true
-  OPTION_TWO: false
-  OPTION_THREE: true
+  Deploy_Eventbridge: true
+  Deploy_Glue: true
+  Deploy_Lambda: true
+  Deploy_SNS: true
+  Deploy_SQS: true
+  Deploy_SF: true
+  Deploy_S3: true
+  Deploy_APIGW: true
 
 jobs:
   env:
@@ -20,26 +25,50 @@ jobs:
         id: build_options_json
         run: |
           # Initialize an empty JSON object
-          OPTIONS_JSON="{"
+          DEPLOY_LIST=()
 
           # Append options as JSON properties based on conditions
-          if [ "${OPTION_ONE}" == "true" ]; then
-            OPTIONS_JSON="${OPTIONS_JSON}\"option_one\": true,"
+          if [ "${Deploy_Eventbridge}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_Eventbridge")
           fi
 
-          if [ "${OPTION_TWO}" == "true" ]; then
-            OPTIONS_JSON="${OPTIONS_JSON}\"option_two\": true,"
+          if [ "${Deploy_Glue}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_Glue")
           fi
 
-          if [ "${OPTION_THREE}" == "true" ]; then
-            OPTIONS_JSON="${OPTIONS_JSON}\"option_three\": true"
+          if [ "${Deploy_Lambda}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_Lambda")
           fi
 
-          # Close JSON object
-          OPTIONS_JSON="${OPTIONS_JSON}}"
+          if [ "${Deploy_SNS}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_SNS")
+          fi
 
-          # Export the built JSON as an output
-          echo "options_json=$OPTIONS_JSON" >> $GITHUB_ENV
+          if [ "${Deploy_SQS}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_SQS")
+          fi
 
-      - name: Print Options String
-        run: echo "Built options string ${{ env.options_json }}"
+          if [ "${Deploy_SF}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_SF")
+          fi
+
+          if [ "${Deploy_S3}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_S3")
+          fi
+
+          if [ "${Deploy_APIGW}" == "true" ]; then
+            DEPLOY_LIST+=("Deploy_APIGW")
+          fi
+
+          
+
+          # Convert the array to a comma-separated string
+          DEPLOY_LIST_STR=$(IFS=','; echo "${DEPLOY_LIST[*]}")
+
+          # Set the list as an output variable
+          echo "::set-output name=deploy_list::$DEPLOY_LIST_STR"
+
+      - name: Set Environment Variable
+        run: |
+          # Set the output from the previous step as an environment variable
+          echo "${{ steps.build_options_json.outputs.deploy_list }}"
