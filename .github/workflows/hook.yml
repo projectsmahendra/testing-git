@@ -16,27 +16,30 @@ jobs:
   env:
     runs-on: ubuntu-latest
     steps:
-      - name: Build Options String
-        id: build_options
+      - name: Build Options JSON
+        id: build_options_json
         run: |
-          # Initialize an empty string for options
-          OPTIONS=""
+          # Initialize an empty JSON object
+          OPTIONS_JSON="{"
 
-          # Append options based on conditions
+          # Append options as JSON properties based on conditions
           if [ "${OPTION_ONE}" == "true" ]; then
-            OPTIONS="${OPTIONS} --option-one"
+            OPTIONS_JSON="${OPTIONS_JSON}\"option_one\": true,"
           fi
 
           if [ "${OPTION_TWO}" == "true" ]; then
-            OPTIONS="${OPTIONS} --option-two"
+            OPTIONS_JSON="${OPTIONS_JSON}\"option_two\": true,"
           fi
 
           if [ "${OPTION_THREE}" == "true" ]; then
-            OPTIONS="${OPTIONS} --option-three"
+            OPTIONS_JSON="${OPTIONS_JSON}\"option_three\": true"
           fi
 
-          # Export the built string as an output
-          echo "options=$OPTIONS" >> $GITHUB_ENV
+          # Close JSON object
+          OPTIONS_JSON="${OPTIONS_JSON}}"
+
+          # Export the built JSON as an output
+          echo "options_json=$OPTIONS_JSON" >> $GITHUB_ENV
 
       - name: Print Options String
         run: echo "Built options string ${{ env.options }}"
