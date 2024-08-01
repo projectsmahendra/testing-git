@@ -8,12 +8,12 @@ on:
         default: '{}'
         required: true
 env:
-  Deploy_Eventbridge: true
+  Deploy_Eventbridge: false
   Deploy_Glue: true
-  Deploy_Lambda: true
-  Deploy_SNS: true
-  Deploy_SQS: true
-  Deploy_SF: true
+  Deploy_Lambda: false
+  Deploy_SNS: false
+  Deploy_SQS: false
+  Deploy_SF: false
   Deploy_S3: true
   Deploy_APIGW: true
 
