@@ -66,9 +66,11 @@ jobs:
           DEPLOY_LIST_STR=$(IFS=','; echo "${DEPLOY_LIST[*]}")
 
           # Set the list as an output variable
-          echo "::set-output name=deploy_list::$DEPLOY_LIST_STR"
+          # echo "::set-output name=deploy_list::$DEPLOY_LIST_STR"
+          echo "DEPLOY_LIST=$DEPLOY_LIST_STR" >> $GITHUB_ENV
 
       - name: Set Environment Variable
         run: |
           # Set the output from the previous step as an environment variable
-          echo "${{ steps.build_options_json.outputs.deploy_list }}"
+          # echo "${{ steps.build_options_json.outputs.deploy_list }}"
+          echo "${{ env.DEPLOY_LIST }}"
