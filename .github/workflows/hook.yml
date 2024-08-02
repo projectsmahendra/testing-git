@@ -58,15 +58,10 @@ jobs:
 
           if [ "${Deploy_APIGW}" == "true" ]; then
             DEPLOY_LIST+=("Deploy_APIGW")
-          fi
-
-          
+          fi          
 
           # Convert the array to a comma-separated string
           DEPLOY_LIST_STR=$(IFS=','; echo "${DEPLOY_LIST[*]}")
-
-          # Set the list as an output variable
-          # echo "::set-output name=deploy_list::$DEPLOY_LIST_STR"
           echo "DEPLOY_LIST=$DEPLOY_LIST_STR" >> $GITHUB_ENV
 
       - name: Set Environment Variable
