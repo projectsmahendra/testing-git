@@ -15,13 +15,13 @@ jobs:
   set-output-job:
     runs-on: ubuntu-latest
     outputs: 
-      OCTOPUS_PIDX: ${{ steps.create-octopus-project.outputs.OCTOPUS_PIDD }}
+      OCTOPUS_PID: ${{ steps.create-octopus-project.outputs.octopus_pid }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Run Python Script to Set Outputs
-        shell: bash
+        # shell: bash
         run: |
           python scripts/set_output.py
           # echo "=======${{ env.OCTOPUS_PID }}"
@@ -31,7 +31,7 @@ jobs:
 
       - name: set output
         id: create-octopus-project
-        run: echo "OCTOPUS_PIDD=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
+        run: echo "octopus_pid=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
           
 
   use-output-job:
@@ -43,6 +43,6 @@ jobs:
 
       - name: Use Outputs
         run: |
-          echo "Output 1 is: ${{ needs.set-output-job.outputs.OCTOPUS_PIDX }}"
+          echo "Output 1 is: ${{ needs.set-output-job.outputs.OCTOPUS_PID }}"
           echo "====== ${{ env.OCTOPUS_PID }}"
 
