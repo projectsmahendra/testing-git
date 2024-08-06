@@ -21,16 +21,17 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Python Script to Set Outputs
-        id: create-octopus-project
         shell: bash
         run: |
           python scripts/set_output.py
           # echo "=======${{ env.OCTOPUS_PID }}"
-          echo "OCTOPUS_PIDD=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
+          
           # echo "octopus_pid=$(cat octopus_project_id.txt)"
           # echo "octopus_pid=$(cat octopus_project_id.txt)" >> $GITHUB_ENV
 
-      - run: echo ${{ env.OCTOPUS_PID }}
+      - name: set output
+        id: create-octopus-project
+        run: echo "OCTOPUS_PIDD=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
           
 
   use-output-job:
