@@ -10,15 +10,6 @@ on:
         type: string
         default: '{}'
         required: true
-env:
-  Deploy_Eventbridge: false
-  Deploy_Glue: true
-  Deploy_Lambda: false
-  Deploy_SNS: false
-  Deploy_SQS: false
-  Deploy_SF: false
-  Deploy_S3: true
-  Deploy_APIGW: true
 
 jobs:
   set-output-job:
@@ -49,6 +40,6 @@ jobs:
 
       - name: Use Outputs
         run: |
-          echo "Output 1 is: ${{ needs.set-output-job.outputs }}"
+          echo "Output 1 is: ${{ toJSON(needs.set-output-job.outputs) }}"
           echo "====== ${{ env.OCTOPUS_PID }}"
 
