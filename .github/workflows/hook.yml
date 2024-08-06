@@ -49,7 +49,7 @@ jobs:
 
       - name: Use Outputs
         env:
-          OCTOPUS_PID: ${{ needs.set-output-job.outputs.OCTOPUS_PID }}
+          OCTOPUS_PID: ${{ needs.set-output-job.outputs }}
         run: |
           echo "Output 1 is: ${{ needs.set-output-job.outputs.OCTOPUS_PID }}"
           echo "====== ${{ env.OCTOPUS_PID }}"
