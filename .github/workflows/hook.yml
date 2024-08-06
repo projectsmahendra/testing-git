@@ -15,7 +15,7 @@ jobs:
   set-output-job:
     runs-on: ubuntu-latest
     outputs: 
-      OCTOPUS_PID: ${{ steps.create-octopus-project.outputs.octopus_pid }}
+      OCTOPUS_PIDX: ${{ steps.create-octopus-project.outputs.OCTOPUS_PIDD }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -26,7 +26,7 @@ jobs:
         run: |
           python scripts/set_output.py
           # echo "=======${{ env.OCTOPUS_PID }}"
-          echo "octopus_pid=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
+          echo "OCTOPUS_PIDD=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
           # echo "octopus_pid=$(cat octopus_project_id.txt)"
           # echo "octopus_pid=$(cat octopus_project_id.txt)" >> $GITHUB_ENV
 
@@ -35,13 +35,13 @@ jobs:
 
   use-output-job:
     runs-on: ubuntu-latest
-    needs: set-output-job
+    needs: [set-output-job]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Use Outputs
         run: |
-          echo "Output 1 is: ${{ toJSON(needs.set-output-job.outputs) }}"
+          echo "Output 1 is: ${{ needs.set-output-job.outputs.OCTOPUS_PIDX }}"
           echo "====== ${{ env.OCTOPUS_PID }}"
 
