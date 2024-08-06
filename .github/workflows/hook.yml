@@ -1,5 +1,8 @@
 name: Hook
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       arguments:
@@ -20,21 +23,17 @@ env:
 jobs:
   set-output-job:
     runs-on: ubuntu-latest
-    outputs:
-      output_1: ${{ steps.set-output-step.outputs.output_1 }}
-      output_2: ${{ steps.set-output-step.outputs.output_2 }}
+    outputs: 
+      OCTOPUS_PID: ${{ steps.create-octopus-project.outputs.octopus_pid }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Run Python Script to Set Outputs
-        id: set-output-step
+        id: create-octopus-project
         run: |
           python scripts/set_output.py
-          # Read each line and set each output
-          while IFS= read -r line; do
-            echo "$line" >> $GITHUB_ENV
-          done < output.txt
+          echo "octopus_pid=${OCTOPUS_PID}" >> $GITHUB_ENV
 
   use-output-job:
     runs-on: ubuntu-latest
@@ -45,6 +44,5 @@ jobs:
 
       - name: Use Outputs
         run: |
-          echo "Output 1 is: ${{ needs.set-output-job.outputs.output_1 }}"
-          echo "Output 2 is: ${{ needs.set-output-job.outputs.output_2 }}"
+          echo "Output 1 is: ${{ needs.set-output-job.outputs.OCTOPUS_PID }}"
 
