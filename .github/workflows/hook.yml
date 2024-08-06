@@ -27,8 +27,10 @@ jobs:
           python scripts/set_output.py
           # echo "=======${{ env.OCTOPUS_PID }}"
           # echo "octopus_pid=${{ env.OCTOPUS_PID }}" >> $GITHUB_ENV
-          echo "octopus_pid=$(cat octopus_project_id.txt)"
-          echo "octopus_pid=$(cat octopus_project_id.txt)" >> $GITHUB_ENV
+          # echo "octopus_pid=$(cat octopus_project_id.txt)"
+          # echo "octopus_pid=$(cat octopus_project_id.txt)" >> $GITHUB_ENV
+
+      - run: echo ${{ env.OCTOPUS_PID }}
           
 
   use-output-job:
