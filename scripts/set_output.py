@@ -6,6 +6,7 @@ def main():
     octopus_project_id = "Hello, GitHub Actions, project id!"
 
     env_file = os.getenv('GITHUB_ENV')
+    print(env_file,'-----')
     with open(env_file, "a") as outputfile:
         outputfile.write(f"OCTOPUS_PID={octopus_project_id}")
 
