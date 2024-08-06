@@ -8,6 +8,7 @@ def main():
     env_file = os.getenv('GITHUB_ENV')
     print(env_file,'-----')
     with open(env_file, "a") as outputfile:
+        print(f"OCTOPUS_PID={octopus_project_id}")
         outputfile.write(f"OCTOPUS_PID={octopus_project_id}")
 
 if __name__ == "__main__":
