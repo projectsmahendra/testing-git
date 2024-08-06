@@ -2,13 +2,11 @@
 
 def main():
     # Define multiple output variables
-    output_1 = "Hello, GitHub Actions!"
-    output_2 = "This is another output."
+    octopus_project_id = "Hello, GitHub Actions, project id!"
 
-    # Write outputs to a file in key=value format
-    with open('output.txt', 'w') as f:
-        f.write(f'output_1={output_1}\n')
-        f.write(f'output_2={output_2}\n')
+    env_file = os.getenv('GITHUB_ENV')
+    with open(env_file, "a") as outputfile:
+        outputfile.write(f"OCTOPUS_PID={octopus_project_id}")
 
 if __name__ == "__main__":
     main()
