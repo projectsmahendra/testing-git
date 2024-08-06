@@ -33,6 +33,7 @@ jobs:
         id: create-octopus-project
         run: |
           python scripts/set_output.py
+          echo "=======${OCTOPUS_PID}"
           echo "octopus_pid=${OCTOPUS_PID}" >> $GITHUB_ENV
 
   use-output-job:
