@@ -3,7 +3,7 @@ import os
 
 def main():
     # Define multiple output variables
-    octopus_project_id = "Hello, GitHub Actions, project id!"
+    octopus_project_id = "Hello GitHub Actions"
 
     # env_file = os.getenv('GITHUB_ENV')
     # print(env_file,'-----')
