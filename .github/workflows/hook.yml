@@ -2,7 +2,7 @@ name: Hook
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
     inputs:
       arguments:
