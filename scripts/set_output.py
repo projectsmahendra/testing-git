@@ -1,4 +1,5 @@
 # scripts/set_output.py
+import os
 
 def main():
     # Define multiple output variables
