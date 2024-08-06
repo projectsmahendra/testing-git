@@ -18,54 +18,33 @@ env:
   Deploy_APIGW: true
 
 jobs:
-  env:
+  set-output-job:
     runs-on: ubuntu-latest
+    outputs:
+      output_1: ${{ steps.set-output-step.outputs.output_1 }}
+      output_2: ${{ steps.set-output-step.outputs.output_2 }}
     steps:
-      - name: Build Options JSON
-        id: build_options_json
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Python Script to Set Outputs
+        id: set-output-step
         run: |
-          # Initialize an empty JSON object
-          DEPLOY_LIST=()
+          python scripts/set_output.py
+          # Read each line and set each output
+          while IFS= read -r line; do
+            echo "$line" >> $GITHUB_ENV
+          done < output.txt
 
-          # Append options as JSON properties based on conditions
-          if [ "${Deploy_Eventbridge}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_Eventbridge")
-          fi
+  use-output-job:
+    runs-on: ubuntu-latest
+    needs: set-output-job
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-          if [ "${Deploy_Glue}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_Glue")
-          fi
-
-          if [ "${Deploy_Lambda}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_Lambda")
-          fi
-
-          if [ "${Deploy_SNS}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_SNS")
-          fi
-
-          if [ "${Deploy_SQS}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_SQS")
-          fi
-
-          if [ "${Deploy_SF}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_SF")
-          fi
-
-          if [ "${Deploy_S3}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_S3")
-          fi
-
-          if [ "${Deploy_APIGW}" == "true" ]; then
-            DEPLOY_LIST+=("Deploy_APIGW")
-          fi          
-
-          # Convert the array to a comma-separated string
-          DEPLOY_LIST_STR=$(IFS=','; echo "${DEPLOY_LIST[*]}")
-          echo "DEPLOY_LIST=$DEPLOY_LIST_STR" >> $GITHUB_ENV
-
-      - name: Set Environment Variable
+      - name: Use Outputs
         run: |
-          # Set the output from the previous step as an environment variable
-          # echo "${{ steps.build_options_json.outputs.deploy_list }}"
-          echo "${{ env.DEPLOY_LIST }}"
+          echo "Output 1 is: ${{ needs.set-output-job.outputs.output_1 }}"
+          echo "Output 2 is: ${{ needs.set-output-job.outputs.output_2 }}"
+
