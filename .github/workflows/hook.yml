@@ -32,6 +32,14 @@ jobs:
       - name: set output
         id: create-octopus-project
         run: echo "octopus_pid=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
+
+      - name: RUN SCRIPT
+        shell: bash
+        run: |
+          sh test.sh
+        env:
+          TESTVAR: bbb
+          
           
 
   use-output-job:
