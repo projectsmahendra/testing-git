@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ "$TESTVAR" == "bbb" ]]; then
    echo "bbb"
 else
