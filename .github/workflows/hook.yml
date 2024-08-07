@@ -36,7 +36,7 @@ jobs:
       - name: RUN SCRIPT
         shell: bash
         run: |
-          sh test.sh
+          bash test.sh
         env:
           TESTVAR: bbb
           
