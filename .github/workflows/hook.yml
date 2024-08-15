@@ -33,7 +33,7 @@ jobs:
         run: echo "Deploying project"
 
       - name: Set failed step
-        if: failure()
+        if: ${{ failure() }}
         run: echo "FAILED_STEP=${{ failure() && github.job }}" >> $GITHUB_ENV
 
   post-job:
