@@ -18,12 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Step 1: Run some tests
-        id: step1
-        run: |
-          echo "Running Step 1"
-          exit 1  # Simulate failure
-
       - name: Step 2: Build
         id: step2
         run: echo "Building project"
