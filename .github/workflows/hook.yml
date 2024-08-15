@@ -47,5 +47,3 @@ jobs:
           else
             echo "No steps failed."
           fi
-
-
