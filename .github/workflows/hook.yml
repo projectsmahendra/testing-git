@@ -12,45 +12,40 @@ on:
         required: true
 
 jobs:
-  set-output-job:
+  build:
     runs-on: ubuntu-latest
-    outputs: 
-      OCTOPUS_PID: ${{ steps.create-octopus-project.outputs.octopus_pid }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # - name: Run Python Script to Set Outputs
-      #   # shell: bash
-      #   run: |
-      #     python scripts/set_output.py
-      #     # echo "=======${{ env.OCTOPUS_PID }}"
-          
-      #     # echo "octopus_pid=$(cat octopus_project_id.txt)"
-      #     # echo "octopus_pid=$(cat octopus_project_id.txt)" >> $GITHUB_ENV
-
-      # - name: set output
-      #   id: create-octopus-project
-      #   run: echo "octopus_pid=${{ env.OCTOPUS_PID }}" >> $GITHUB_OUTPUT
-
-      - name: RUN SCRIPT
-        shell: bash
+      - name: Step 1: Run some tests
+        id: step1
         run: |
-          bash test.sh
-        env:
-          TESTVAR: bbb
-          
-          
+          echo "Running Step 1"
+          exit 1  # Simulate failure
 
-  # use-output-job:
-  #   runs-on: ubuntu-latest
-  #   needs: [set-output-job]
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v3
+      - name: Step 2: Build
+        id: step2
+        run: echo "Building project"
 
-  #     - name: Use Outputs
-  #       run: |
-  #         echo "Output 1 is: ${{ needs.set-output-job.outputs.OCTOPUS_PID }}"
-  #         echo "====== ${{ env.OCTOPUS_PID }}"
+      - name: Step 3: Deploy
+        id: step3
+        run: echo "Deploying project"
+
+      - name: Set failed step
+        if: failure()
+        run: echo "FAILED_STEP=${{ failure() && github.job }}" >> $GITHUB_ENV
+
+  post-job:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Print failed step
+        run: |
+          if [ -n "${{ env.FAILED_STEP }}" ]; then
+            echo "The failed step was: ${{ env.FAILED_STEP }}"
+          else
+            echo "No steps failed."
+          fi
+
 
