@@ -48,12 +48,11 @@ jobs:
     steps:
       - name: Determine failed jobs
         run: |
-          echo "${{ needs.job1.result }}"
           failed_jobs=()
-          if [ "${{ needs.job1.status }}" == "failed" ]; then
+          if [ "${{ needs.job1.result }}" == "failure" ]; then
             failed_jobs+=("job1")
           fi
-          if [ "${{ needs.job2.status }}" == "failed" ]; then
+          if [ "${{ needs.job2.result }}" == "failure" ]; then
             failed_jobs+=("job2")
           fi
 
