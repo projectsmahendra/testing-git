@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Determine failed jobs
         run: |
-          echo "${{ needs.job1.status }}"
+          echo "${{ needs.job1.result }}"
           failed_jobs=()
           if [ "${{ needs.job1.status }}" == "failed" ]; then
             failed_jobs+=("job1")
