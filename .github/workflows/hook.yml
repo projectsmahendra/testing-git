@@ -43,6 +43,7 @@ jobs:
 
   final_job:
     runs-on: ubuntu-latest
+    if: always()
     needs: [job1, job2] # Add all jobs that this final job depends on
     steps:
       - name: Determine failed jobs
