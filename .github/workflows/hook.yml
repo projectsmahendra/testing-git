@@ -56,10 +56,6 @@ jobs:
         id: set_job_status
         if: success()
         run: echo "::set-output name=status::success"
-
-### 2. Use the last job to collect and print the failed jobs:
-
-```yaml
   final_job:
     runs-on: ubuntu-latest
     needs: [job1, job2] # Add all jobs that this final job depends on
