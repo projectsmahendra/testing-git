@@ -57,7 +57,7 @@ jobs:
           jobs=("${{ toJSON(needs) }}")
 
           for job in "${!jobs[@]}"; do
-            echo "job"
+            echo "$job"
             
           done
 
