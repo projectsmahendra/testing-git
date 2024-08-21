@@ -51,20 +51,27 @@ jobs:
     needs: [job1, job2] # Add all jobs that this final job depends on
     steps:
       - name: Determine failed jobs
-        shell: bash
         run: |
-          failed_jobs=()
-          jobs=("${{ toJSON(needs) }}")
+          # Define an array of job names
+          job_names=("job1" "job2")
 
-          for job in "${!jobs[@]}"; do
-            result="${{ needs[$job].result }}"
+          failed_jobs=()
+
+          # Loop through the job names and check the result of each job
+          for job in "${job_names[@]}"; do
+            # Access the result of each job via the 'needs' context
+            result=$(echo "${{ needs.${job}.result }}")
+
+            # Check if the job failed
             if [ "$result" == "failure" ]; then
               failed_jobs+=("$job")
             fi
           done
 
+          # Print the results
           if [ ${#failed_jobs[@]} -eq 0 ]; then
             echo "All jobs passed!"
           else
             echo "The following jobs failed: ${failed_jobs[@]}"
           fi
+
