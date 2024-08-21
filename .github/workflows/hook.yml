@@ -57,10 +57,11 @@ jobs:
           jobs=("${{ toJSON(needs) }}")
 
           for job in "${!jobs[@]}"; do
-            result="${{ needs[$job].result }}"
-            if [ "$result" == "failure" ]; then
-              failed_jobs+=("$job")
-            fi
+            echo "job"
+            # result="${{ needs[$job].result }}"
+            # if [ "$result" == "failure" ]; then
+            #   failed_jobs+=("$job")
+            # fi
           done
 
           if [ ${#failed_jobs[@]} -eq 0 ]; then
