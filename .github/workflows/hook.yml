@@ -51,6 +51,7 @@ jobs:
     needs: [job1, job2] # Add all jobs that this final job depends on
     steps:
       - name: Determine failed jobs
+        shell: bash
         run: |
           failed_jobs=()
           jobs=("${{ toJSON(needs) }}")
