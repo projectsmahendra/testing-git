@@ -53,12 +53,14 @@ jobs:
       - name: Determine failed jobs
         run: |
           failed_jobs=()
-          if [ "${{ needs.job1.result }}" == "failure" ]; then
-            failed_jobs+=("job1")
-          fi
-          if [ "${{ needs.job2.result }}" == "failure" ]; then
-            failed_jobs+=("job2")
-          fi
+          jobs=("${{ toJSON(needs) }}")
+
+          for job in "${!jobs[@]}"; do
+            result="${{ needs[$job].result }}"
+            if [ "$result" == "failure" ]; then
+              failed_jobs+=("$job")
+            fi
+          done
 
           if [ ${#failed_jobs[@]} -eq 0 ]; then
             echo "All jobs passed!"
