@@ -60,7 +60,7 @@ jobs:
           # Loop through the job names and check the result of each job
           for job in "${job_names[@]}"; do
             # Access the result of each job via the 'needs' context
-            result=$(echo "${{ needs.$job.result }}")
+            result=$(echo "${{ needs.${job}.result }}")
 
             # Check if the job failed
             if [ "$result" == "failure" ]; then
