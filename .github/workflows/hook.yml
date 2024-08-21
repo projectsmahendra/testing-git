@@ -43,7 +43,7 @@ jobs:
       - name: Run some tests
         run: |
           echo "Running job2"
-          exit 1  # Simulate failure
+          #exit 1  # Simulate failure
 
   final_job:
     runs-on: ubuntu-latest
