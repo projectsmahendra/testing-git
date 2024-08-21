@@ -52,26 +52,26 @@ jobs:
     steps:
       - name: Determine failed jobs
         run: |
-          # Define an array of job names
-          job_names=("job1" "job2")
-
           failed_jobs=()
-
-          # Loop through the job names and check the result of each job
-          for job in "${job_names[@]}"; do
-            # Access the result of each job via the 'needs' context
-            echo "${{ format( "needs.{0}.result", $job) }}"
-
-            # Check if the job failed
-            if [ "$result" == "failure" ]; then
-              failed_jobs+=("$job")
-            fi
-          done
-
-          # Print the results
-          if [ ${#failed_jobs[@]} -eq 0 ]; then
-            echo "All jobs passed!"
-          else
-            echo "The following jobs failed: ${failed_jobs[@]}"
+          if [ "${{ needs.job1.result }}" == "failure" ]; then
+            failed_jobs+=("job1")
+          fi
+          if [ "${{ needs.job2.result }}" == "failure" ]; then
+            failed_jobs+=("job2")
           fi
 
+          # Join the array into a single string separated by commas
+          if [ ${#failed_jobs[@]} -eq 0 ]; then
+            failed_jobs_str=""
+          else
+            failed_jobs_str=$(IFS=,; echo "${failed_jobs[*]}")
+          fi
+
+          # Export the failed jobs string to the environment
+          echo "FAILED_JOBS=$failed_jobs_str" >> $GITHUB_ENV
+
+      - name: Print failed jobs
+        env:
+          FAILED_JOB_STR: {{env.FAILED_JOBS}}
+        run: |
+          echo $FAILED_JOB_STR
