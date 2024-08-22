@@ -71,6 +71,8 @@ jobs:
           echo "FAILED_JOBS=$failed_jobs_str" >> $GITHUB_ENV
 
       - name: Print failed jobs
+        env:
+          FAILED_JOBSS: ${{ env.DEPLOY_LIST }}
         run: |
           echo $FAILED_JOBS
           
