@@ -72,7 +72,7 @@ jobs:
 
       - name: Print failed jobs
         env:
-          FAILED_JOBSS: ${{ env.DEPLOY_LIST }}
+          FAILED_JOBSS: ${{ env.FAILED_JOBS }}
         run: |
           echo $FAILED_JOBS
           
