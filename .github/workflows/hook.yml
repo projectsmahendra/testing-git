@@ -20,7 +20,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+        aws-region: us-east-1
     - name: Provide a self hosted to execute this job
       uses: PasseiDireto/gh-runner-task-action@main
       with:
