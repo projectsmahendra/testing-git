@@ -12,67 +12,23 @@ on:
         required: true
 
 jobs:
-  job1:
+  pre-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run some tests
-        run: |
-          echo "Running job1"
-          exit 1  # Simulate failure
-
-      - name: Set job status
-        if: failure()  # This will be true if the job fails
-        run: echo "sdfsd"
-      
-      - name: Set success status
-        if: success()  # This will be true if the job succeeds
-        run: echo "asdfdsf"
-
-  job2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run some tests
-        run: |
-          echo "Running job2"
-      - name: Run some tests
-        run: |
-          echo "Running job2"
-          #exit 1  # Simulate failure
-
-  final_job:
-    runs-on: ubuntu-latest
-    if: always()
-    needs: [job1, job2] # Add all jobs that this final job depends on
-    steps:
-      - name: Determine failed jobs
-        run: |
-          failed_jobs=()
-          if [ "${{ needs.job1.result }}" == "failure" ]; then
-            failed_jobs+=("job1")
-          fi
-          if [ "${{ needs.job2.result }}" == "failure" ]; then
-            failed_jobs+=("job2")
-          fi
-
-          # Join the array into a single string separated by commas
-          if [ ${#failed_jobs[@]} -eq 0 ]; then
-            failed_jobs_str=""
-          else
-            failed_jobs_str=$(IFS=,; echo "${failed_jobs[*]}")
-          fi
-
-          # Export the failed jobs string to the environment
-          echo "FAILED_JOBS=$failed_jobs_str" >> $GITHUB_ENV
-
-      - name: Print failed jobs
-        env:
-          FAILED_JOBSS: ${{ env.FAILED_JOBS }}
-        run: |
-          echo $FAILED_JOBS
-          
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+    - name: Provide a self hosted to execute this job
+      uses: PasseiDireto/gh-runner-task-action@main
+      with:
+        github_pat: ${{ secrets.SPECIAL_ACCESS_TOKEN }}
+        task_definition: 'my-task-def'
+        cluster: 'my-ecs-cluster'
+  actual-job:
+     runs-on: self-hosted
+     needs: pre-job
+     steps:
+       - run: python --version
