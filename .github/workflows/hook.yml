@@ -27,7 +27,7 @@ jobs:
       uses: PasseiDireto/gh-runner-task-action@main
       with:
         github_pat: ${{ secrets.SPECIAL_ACCESS_TOKEN }}
-        task_definition: 'github-amazon-linux-td'
+        task_definition: 'ghrunner'
         cluster: 'test-github-action'
         task_params_file: './task-params.json'
   actual-job:
