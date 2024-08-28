@@ -29,6 +29,7 @@ jobs:
         github_pat: ${{ secrets.SPECIAL_ACCESS_TOKEN }}
         task_definition: 'github-amazon-linux-td'
         cluster: 'test-github-action'
+        task_params_file: './task-params.json'
   actual-job:
      runs-on: self-hosted
      needs: pre-job
