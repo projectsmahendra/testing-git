@@ -27,8 +27,8 @@ jobs:
       uses: PasseiDireto/gh-runner-task-action@main
       with:
         github_pat: ${{ secrets.SPECIAL_ACCESS_TOKEN }}
-        task_definition: 'my-task-def'
-        cluster: 'my-ecs-cluster'
+        task_definition: 'github-amazon-linux-td'
+        cluster: 'test-github-action'
   actual-job:
      runs-on: self-hosted
      needs: pre-job
