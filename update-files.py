@@ -1,13 +1,15 @@
 import os
 import sys
 import yaml
-cwd = os.getcwd()
-sys.path.append(cwd)
+
+
 
 if __name__ == '__main__':
   
   # CI Values
-  print(os.environ)
+  cwd = os.getcwd()
+  print(cwd,"========")
+  sys.path.append(cwd)
   APPLICATION_TYPE = os.environ.get('APPLICATION_TYPE')
   app_dir = "api/1-Api/PROJECTNAME.Api" if APPLICATION_TYPE == "1" else "api/PROJECTNAME.Api"
   environment = "Dev Integration"
