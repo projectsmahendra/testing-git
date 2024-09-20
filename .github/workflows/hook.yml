@@ -11,7 +11,7 @@ on:
         default: '{}'
         required: true
 env:
-  APPLICATION_TYPE: "1"
+  APPLICATION_TYPE: "2"
 jobs:
   job1:
     runs-on: ubuntu-latest
