@@ -15,8 +15,8 @@ if __name__ == '__main__':
   #########################################
   ''' CUSTOMIZE GITHUB ACTIONS CI FILES '''
   #########################################
-  with open(f'{cwd}/worflows/cicd.yaml') as istream:
+  with open(f'./worflows/cicd.yaml') as istream:
     wf_file['jobs']['dotnet-build']['with']['app_dir'] = app_dir
 
-  with open(f'{cwd}/worflows/cicd.yaml-output.yaml', 'w') as ostream:
+  with open(f'./worflows/cicd.yaml-output.yaml', 'w') as ostream:
     yaml.safe_dump(wf_file, ostream, width=1000, default_flow_style=False, sort_keys=False)
