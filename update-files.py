@@ -8,7 +8,8 @@ if __name__ == '__main__':
   
   # CI Values
   print(os.environ)
-  app_dir = "api/1-Api/PROJECTNAME.Api" if $APPLICATION_TYPE == "1" else "api/PROJECTNAME.Api"
+  APPLICATION_TYPE = os.environ.get('APPLICATION_TYPE')
+  app_dir = "api/1-Api/PROJECTNAME.Api" if APPLICATION_TYPE == "1" else "api/PROJECTNAME.Api"
   environment = "Dev Integration"
 
   #########################################
