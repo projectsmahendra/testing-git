@@ -10,28 +10,23 @@ on:
         type: string
         default: '{}'
         required: true
-
+env:
+  APPLICATION_TYPE: "1"
 jobs:
-  pre-job:
+  job1:
     runs-on: ubuntu-latest
     steps:
-    - run: echo ${{ secrets.AWS_ACCESS_ID }}
-    - run: echo ${{ secrets.AWS_SECRET_KEY }}
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-region: us-east-1
-    - name: Provide a self hosted to execute this job
-      uses: PasseiDireto/gh-runner-task-action@main
-      with:
-        github_pat: ${{ secrets.SPECIAL_ACCESS_TOKEN }}
-        task_definition: 'github-amazon-linux-td'
-        cluster: 'test-github-action'
-        task_params_file: './task-params.json'
-  actual-job:
-     runs-on: self-hosted
-     needs: pre-job
-     steps:
-       - run: python --version
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Run bash script that triggers Python
+        run: |
+          chmod +x script.sh    # Make the bash script executable
+          ./script.sh           # Run the bash script
+          cat c
+

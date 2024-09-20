@@ -1,0 +1,31 @@
+name: DevSecOps CICD
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [release-**]
+  # pull_request:
+  #   branches: [release-**]
+  #   types: [opened, reopened, synchronize]
+    
+jobs:
+  dotnet-build:
+    uses: LPL-DevSecOps/devsecops_action_template/.github/workflows/terraformLZP.yml@main
+    with:
+      app_language: 'dotnet'
+      app_language_version: "VERSION"
+      dotnet_sln: api/PROJECTNAME.sln
+      dockerfile_path: api/1-Api/PROJECTNAME.Api/Dockerfile
+      publish_package: false
+    secrets: inherit 
+  octopus-cd:
+    needs: [dotnet-build]
+    uses: LPL-DevSecOps/devsecops_action_template/.github/workflows/octopus-cd.yml@main
+    with:
+      deploy_env: Dev Sandbox
+      octopus_project_name: WORKSPACENAME
+      release_version: ${{ needs.dotnet-build.outputs.package_version }}
+      deploy_release: true
+      valid_build: ${{ needs.dotnet-build.outputs.is_valid_version }}
+      package_id: "Terraform Apply or Destroy/infrastructure-as-code"
+      package_version: ${{ needs.dotnet-build.outputs.package_version }}
+    secrets: inherit
