@@ -1,6 +1,7 @@
 import os
 import sys
-import yaml
+#import yaml
+from ruamel.yaml import YAML
 
 
 
@@ -17,11 +18,13 @@ if __name__ == '__main__':
   #########################################
   ''' CUSTOMIZE GITHUB ACTIONS CI FILES '''
   #########################################
+  yaml = YAML()
+  yaml.preserve_quotes = True
   with open(f'workflows/cicd.yml') as istream:
-    wf_file = yaml.safe_load(istream)
+    wf_file = yaml.load(istream)
     wf_file['jobs']['dotnet-build']['with']['app_dir'] = app_dir
 
   print(wf_file,'=========')
 
   with open(f'workflows/cicd-output.yaml', 'w') as ostream:
-    yaml.safe_dump(wf_file, ostream, width=1000, default_flow_style=False, sort_keys=False)
+    yaml.dump(wf_file, ostream)
