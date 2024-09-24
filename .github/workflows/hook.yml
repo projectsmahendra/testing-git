@@ -32,5 +32,5 @@ jobs:
         run: |
           chmod +x script.sh    # Make the bash script executable
           ./script.sh           # Run the bash script
-          cat c
+          
 
