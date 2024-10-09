@@ -19,18 +19,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
-      - name: Install Dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install pyyaml ruamel.yaml  # Install PyYAML
+      # - name: Set up Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: '3.8'
+      # - name: Install Dependencies
+      #   run: |
+      #     python3 -m pip install --upgrade pip
+      #     pip install pyyaml ruamel.yaml  # Install PyYAML
 
       - name: Run bash script that triggers Python
         run: |
-          chmod +x script.sh    # Make the bash script executable
-          ./script.sh           # Run the bash script
+          chmod +x replace.sh    # Make the bash script executable
+          ./replace.sh           # Run the bash script
           
 
