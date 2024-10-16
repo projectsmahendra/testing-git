@@ -16,11 +16,12 @@ repo_name = os.getenv('repo_name')
 
 try:
     while True:
+        print(f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}")
         response = requests.get(
             f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}",
             headers=headers
         ).json()
-
+        print("response",response)
         if response.get('status') == "completed":
             if response.get('conclusion') == "success":
                 print("================================================")
