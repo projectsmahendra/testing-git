@@ -21,7 +21,6 @@ try:
             f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}",
             headers=headers
         ).json()
-        print("response",response)
         if response.get('status') == "completed":
             if response.get('conclusion') == "success":
                 print("================================================")
