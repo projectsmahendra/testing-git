@@ -13,10 +13,10 @@ headers = {
 }
 run_id = os.getenv('INFRA_WORKFLOW_ID')
 repo_name = os.getenv('repo_name')
-queued_time_limit = 600 ## seconds to wait before stop checking
+queued_time_limit = 60*30 ## seconds to wait before stop checking
 start_time = time.time()
 try:
-    while status in ["in_progress", "queued"]:
+    while True:
         print(f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}")
         response = requests.get(
             f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}",
