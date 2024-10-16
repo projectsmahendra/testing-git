@@ -15,7 +15,7 @@ run_id = os.getenv('INFRA_WORKFLOW_ID')
 repo_name = os.getenv('repo_name')
 
 try:
-    while True:
+    for i in range(0, 60):
         print(f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}")
         response = requests.get(
             f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}",
@@ -35,7 +35,10 @@ try:
                 raise
         else:
             print(f"The job is being run: {response.get('status')}")
-        time.sleep(10)
+        time.sleep(30)
+        if i == 59:
+            print(f"The job is unable to complete/start within given time - pls check below URL for more information")
+            print(run_log_url)
 
 except Exception as err:
     print(f"Exception occurred while processing your request - please verify the logs for more information")
