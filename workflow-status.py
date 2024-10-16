@@ -12,6 +12,7 @@ headers = {
     "Content-Type": "application/x-www-form-urlencoded"
 }
 run_id = os.getenv('INFRA_WORKFLOW_ID')
+repo_name = os.getenv('repo_name')
 
 try:
     while True:
