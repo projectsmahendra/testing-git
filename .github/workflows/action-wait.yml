@@ -42,4 +42,5 @@ jobs:
         run: |
           # chmod +x replace.sh    # Make the bash script executable
           # ./replace.sh           # Run the bash script
-          echo "$INFRA_WORKFLOW_ID"
+          echo "check status for workflow run = $INFRA_WORKFLOW_ID"
+          python3 workflow-status.py
