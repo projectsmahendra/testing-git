@@ -1,0 +1,43 @@
+name: Hook
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Install Dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run bash script that triggers Python
+        env:
+          GH_TOKEN: ${{ github.token }}
+          repo_name: "projectsmahendra/testing-git"
+          workflow_name: "hook.yml"
+        run: |
+          # chmod +x replace.sh    # Make the bash script executable
+          # ./replace.sh           # Run the bash script
+          python3 trigger-workflow.py
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          INFRA_WORKFLOW_ID: ${{needs.job1.outputs.INFRA_WORKFLOW_ID}}
+
+      - name: Run bash script that triggers Python
+        run: |
+          # chmod +x replace.sh    # Make the bash script executable
+          # ./replace.sh           # Run the bash script
+          echo "$INFRA_WORKFLOW_ID"
