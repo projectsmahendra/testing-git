@@ -39,6 +39,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run bash script that triggers Python
         env:
+          GH_TOKEN: ${{ github.token }}
           repo_name: "projectsmahendra/testing-git"
           INFRA_WORKFLOW_ID: ${{needs.job1.outputs.workflow_run_id}}
         run: |
