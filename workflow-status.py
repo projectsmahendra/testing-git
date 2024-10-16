@@ -13,9 +13,10 @@ headers = {
 }
 run_id = os.getenv('INFRA_WORKFLOW_ID')
 repo_name = os.getenv('repo_name')
-
+queued_time_limit = 600 ## seconds to wait before stop checking
+start_time = time.time()
 try:
-    for i in range(0, 60):
+    while status in ["in_progress", "queued"]:
         print(f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}")
         response = requests.get(
             f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}",
@@ -35,9 +36,12 @@ try:
         else:
             print(f"The job is being run: {response.get('status')}")
         time.sleep(30)
-        if i == 59:
-            print(f"The job is unable to complete/start within given time - pls check below URL for more information")
-            print(run_log_url)
+        # check if taking too long
+        current_time = time.time()
+        queued_duration = current_time - start_time
+        if queued_duration > queued_time_limit:
+            print(f"Workflow has been queued for too long ({queued_duration / 60:.2f} minutes). Failing the job.")
+            raise
 
 except Exception as err:
     print(f"Exception occurred while processing your request - please verify the logs for more information")
