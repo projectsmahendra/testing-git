@@ -32,7 +32,7 @@ try:
         run_log_url = f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}"
         print("run_log_url",run_log_url)
         with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f"INFRA_WORKFLOW_ID={run_id}", file=f)
+            print(f"run_id={run_id}", file=f)
     else:
         print("-----------------------------------")
         print(f"ERROR: Failed to run the workflow")

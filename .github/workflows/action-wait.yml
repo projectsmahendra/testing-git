@@ -7,6 +7,8 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
+    outputs:
+      workflow_run_id: ${{ steps.get_workflow_run_id.outputs.run_id }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -21,14 +23,13 @@ jobs:
           pip install requests
 
       - name: Run bash script that triggers Python
+        id: get_workflow_run_id
         env:
           GH_TOKEN: ${{ github.token }}
           repo_name: "projectsmahendra/testing-git"
           workflow_name: "hook.yml"
           branch: master
         run: |
-          # chmod +x replace.sh    # Make the bash script executable
-          # ./replace.sh           # Run the bash script
           python3 trigger-workflow.py
 
   job2:
@@ -37,7 +38,7 @@ jobs:
     steps:
       - name: Run bash script that triggers Python
         env:
-          INFRA_WORKFLOW_ID: ${{needs.job1.outputs.INFRA_WORKFLOW_ID}}
+          INFRA_WORKFLOW_ID: ${{needs.job1.outputs.workflow_run_id}}
         run: |
           # chmod +x replace.sh    # Make the bash script executable
           # ./replace.sh           # Run the bash script
