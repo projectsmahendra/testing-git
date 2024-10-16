@@ -36,6 +36,7 @@ try:
         else:
             print(f"The job is being run: {response.get('status')}")
         time.sleep(10)
+        break
 
 except Exception as err:
     print(f"Exception occurred while processing your request - please verify the logs for more information")
