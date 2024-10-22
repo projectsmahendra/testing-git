@@ -1,9 +1,15 @@
 name: Hook
 on:
-  push:
-    branches:
-      - master
-
+  # push:
+  #   branches:
+  #     - master
+  workflow_dispatch:
+    inputs:
+      arguments:
+        description: 'Client JSON Payload'
+        type: string
+        default: '{}'
+        required: true
 jobs:
   job1:
     runs-on: ubuntu-latest

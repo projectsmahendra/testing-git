@@ -1,0 +1,32 @@
+name: JSONParase
+on:
+  workflow_dispatch:
+    inputs:
+      arguments:
+        description: 'Enter the pipeline type (integer)'
+        required: true
+        type: string
+
+env:
+  PIPELINE_TYPE: ${{fromJson(inputs.arguments).pipeline_type}}
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+
+
+      - name: Run bash script that triggers Python
+        id: get_workflow_run_id
+        run: |
+          echo "job1=$PIPELINE_TYPE"
+
+  # job2:
+  #   runs-on: ubuntu-latest
+  #   needs: job1
+  #   if: {{ }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run bash script that triggers Python
+  #       run: |
+  #         echo "job2"
