@@ -1,0 +1,18 @@
+name: Hook
+on:
+  push:
+    branches:
+      - master
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run bash script that triggers Python
+        run: |
+          chmod +x replace.sh    # Make the bash script executable
+          ./replace.sh           # Run the bash script
+          
+

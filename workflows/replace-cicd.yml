@@ -1,0 +1,32 @@
+name: CICD
+on:
+  workflow_dispatch:
+  push:
+    branches: [release-**, hotfix-*, feature-**]
+  pull_request:
+    branches: [release-**, hotfix-*, feature-**]
+    types: [opened, reopened, synchronize]
+
+permissions: write-all
+jobs:
+  CI:
+    uses: LPL-DevSecOps/devsecops_action_template/.github/workflows/terraformLZP.yml@main
+    with:
+      app_language: python
+      app_language_version: '3.11'
+      app_dir: src
+      test_dir: src/tests
+      dockerfile_path: 'Dockerfile'
+    secrets: inherit
+  CD:
+    needs: CI
+    uses: LPL-DevSecOps/devsecops_action_template/.github/workflows/octopus-cd.yml@main
+    with:
+      deploy_env: "Dev Sandbox"
+      octopus_project_name: "REPLACE_OCTOPUS_PROJECT_NAME"
+      release_version: ${{ needs.CI.outputs.package_version }}
+      deploy_release: true
+      valid_build: true
+      package_id: ${{ github.repository }}
+      package_version: ${{ needs.CI.outputs.package_version }}
+    secrets: inherit
