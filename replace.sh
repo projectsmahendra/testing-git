@@ -7,6 +7,8 @@
 # cat main.tf
 
 
-sed -i 's/app_dir: src/app_dir: mahendra\/src/' workflows/replace-cicd.yml
-sed -i 's/test_dir: src/tests/test_dir: mahendra\/src\/tests/' workflows/replace-cicd.yml
+#sed -i 's/app_dir: src/app_dir: mahendra\/src/' workflows/replace-cicd.yml
+#sed -i 's/test_dir: src/tests/test_dir: mahendra\/src\/tests/' workflows/replace-cicd.yml
+sed -i -e 's|app_dir: src|app_dir: mahendra/src|' -e 's|test_dir: src/tests|test_dir: mahendra/src/tests|' workflows/replace-cicd.yml
+
 cat workflows/replace-cicd.yml
