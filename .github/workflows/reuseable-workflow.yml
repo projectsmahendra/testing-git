@@ -6,7 +6,7 @@ on:
 jobs:
   job1:
     name: Call external workflow as job
-    uses: projectsmahendra/XlsxWriter/blob/master/.github/workflows/reusable.yml@master
+    uses: projectsmahendra/XlsxWriter/.github/workflows/reusable.yml@master
     with:
       some-input: "value"
     secrets:
