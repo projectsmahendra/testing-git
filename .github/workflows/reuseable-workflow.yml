@@ -1,4 +1,4 @@
-name: Reuseable workflow
+name: Reuseable-workflow
 
 on:
   workflow_dispatch:
