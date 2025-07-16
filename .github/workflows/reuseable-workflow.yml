@@ -7,8 +7,6 @@ jobs:
   job1:
     name: Call external workflow as job
     uses: projectsmahendra/XlsxWriter/.github/workflows/reusable.yml@master
-    secrets:
-      some-secret: ${{ secrets.SOME_SECRET }}
 
   job2:
     name: Regular job
