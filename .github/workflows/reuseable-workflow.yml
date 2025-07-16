@@ -11,7 +11,6 @@ jobs:
       some-input: "value"
     secrets:
       some-secret: ${{ secrets.SOME_SECRET }}
-    continue-on-error: true 
 
   job2:
     name: Regular job
